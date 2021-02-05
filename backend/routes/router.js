@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const { Home } = require('../controllers/HomeController');
 const { User, UserRegister, UserLogin, UserUpdate, UserDelete } = require('../controllers/UserController');
@@ -9,7 +10,7 @@ const { User, UserRegister, UserLogin, UserUpdate, UserDelete } = require('../co
 router.get('/', Home);
 
 // Users Routes
-router.get('/users', User);
+router.get('/users', authMiddleware, asyncHandler(User));
 router.post('/users/register', asyncHandler(UserRegister));
 router.post('/users/login', asyncHandler(UserLogin));
 router.put('/users/update', UserUpdate);

@@ -1,8 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const generateToken = require('../utils/generateToken');
 
 exports.User = async (req, res) => {
-    res.json('Users');
+    console.log(req.headers);
+    res.json(req.user);
 };
 
 exports.UserRegister = async (req, res) => {
@@ -17,7 +19,8 @@ exports.UserRegister = async (req, res) => {
 
         if (userExists){
             throw new Error('User Exist');
-        }else{
+        }
+        else{
             const salt = await bcrypt.genSalt(10);
             const newpassword = await bcrypt.hash(user.password, salt);
             const saveuser = new User({...user, password: newpassword});
@@ -33,11 +36,20 @@ exports.UserRegister = async (req, res) => {
     }
 };
 
+// isPassword = async function(enteredPassword, usersPassword){
+//     return await bcrypt.compare(enteredPassword, usersPassword)
+// };  This OR
+
+isPasswordMatch = async (enteredPassword, usersPassword) => {
+    return await bcrypt.compare(enteredPassword, usersPassword)
+};
+
 exports.UserLogin = async (req, res) => {
     const userLogin = req.body;
     const user = await User.findOne({email: userLogin.email});
+    
 
-    if(user){
+    if(user && (await isPasswordMatch(userLogin.password, user.password))){
         //Set status code
         res.status(200);
         res.json({
@@ -45,8 +57,10 @@ exports.UserLogin = async (req, res) => {
             // name: user.name,
             // password: user.password,
             // email: user.email
-            userdetails: user
+            userdetails: user,
+            token: generateToken(user._id),
         })
+        console.log(req.headers);
     }
     else{
         res.status(401);
