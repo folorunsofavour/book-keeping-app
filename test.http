@@ -1,0 +1,27 @@
+GET http://localhost:5000/api HTTP/1.1
+
+###
+
+DELETE http://localhost:5000/api/users/delete/89 HTTP/1.1
+
+###
+
+POST http://localhost:5000/api/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Favour",
+    "email": "example@gmail.com",
+    "password": "password"
+}
+
+
+###
+POST http://localhost:5000/api/users/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Abiodun",
+    "email": "example@gmail.com",
+    "password": "bolade"
+}
