@@ -13,6 +13,7 @@ exports.UserRegister = async (req, res) => {
         // const user = await User.create({ name, email, password});
 
         const user = req.body;
+        
         // const password = req.body.password;
 
         const userExists = await User.findOne({email: user.email });
@@ -24,7 +25,7 @@ exports.UserRegister = async (req, res) => {
             const salt = await bcrypt.genSalt(10);
             const newpassword = await bcrypt.hash(user.password, salt);
             const saveuser = new User({...user, password: newpassword});
-            // await saveuser.save();
+            await saveuser.save();
 
             console.log(saveuser);
 
@@ -69,7 +70,14 @@ exports.UserLogin = async (req, res) => {
 };
 
 exports.UserUpdate = async (req, res) => {
-    res.json('Update Route')
+    // const user = await User.findByIdAndUpdate(req.user._id, req.body, {new: true, useFindAndModify: true}) This OR
+
+    const user = await User.findById(req.user._id);
+    
+    if(user){
+        const updatedUser = await user.save(req.body);
+        res.json(updatedUser);
+    }
 };
 
 exports.UserDelete = async (req, res) => {
