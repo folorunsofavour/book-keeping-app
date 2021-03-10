@@ -51,6 +51,6 @@ exports.BookDelete = async (req, res) => {
         // res.sendStatus(200);
     } catch (error) {
         res.json(error);
-        throw new  ('Delete Failed');
+        throw new Error('Delete Failed');
     }
 };

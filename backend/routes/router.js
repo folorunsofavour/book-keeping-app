@@ -19,8 +19,8 @@ router.delete('/users/delete/:id', UserDelete);
 
 // Books Routes
 router.get('/books', asyncHandler(Book));
-router.post('/books/create', asyncHandler(BookCreate));
+router.post('/books/create', authMiddleware, asyncHandler(BookCreate));
 router.put('/books/update/:id',  authMiddleware, asyncHandler(BookUpdate));
-router.delete('/books/delete/:id', asyncHandler(BookDelete));
+router.delete('/books/delete/:id', authMiddleware, asyncHandler(BookDelete));
 
 module.exports = router;
