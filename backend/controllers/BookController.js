@@ -20,6 +20,8 @@ exports.BookCreate = async (req, res) => {
     const saveBook = new Book(book);
     await saveBook.save();
 
+    // when creating book populate it with the relationship of the user creating the book after youve finished doinglogin
+
     if(saveBook){
         res.status(200);
         res.json(saveBook)
