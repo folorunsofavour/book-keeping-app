@@ -27,9 +27,17 @@ exports.UserRegister = async (req, res) => {
             const saveuser = new User({...user, password: newpassword});
             await saveuser.save();
 
-            console.log(saveuser);
+            // console.log(saveuser);
 
-            res.json({ saveuser});
+            // res.json({ saveuser});s
+            res.json({
+                userCreated: saveuser,
+                // _id: saveuser._id,
+                // name: saveuser.name,
+                // password: saveuser.password,
+                // email: saveuser.password,
+                token: generateToken(saveuser._id),
+              });
         }
         
     }catch (error) {

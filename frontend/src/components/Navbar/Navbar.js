@@ -92,7 +92,7 @@ const Navbar = () => {
                                 <a className='nav-link' to='/login'> Login </a>
                             </li>
                             <li className='nav-item'> 
-                                <a className='nav-link' to='/register'> Register </a>
+                                <Link className='nav-link' to='/users/register'> Register </Link>
                             </li>
                         </>
 

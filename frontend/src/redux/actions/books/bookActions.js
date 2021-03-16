@@ -40,7 +40,7 @@ const fetchBooksAction = () => {
                 'Content-Type': 'application/json',
             };
 
-            const {data} = await axios.get('api/books', config);
+            const {data} = await axios.get('/api/books', config);
 
             dispatch({
                 type: FETCH_BOOK_SUCCESS,
