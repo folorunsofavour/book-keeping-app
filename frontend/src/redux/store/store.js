@@ -9,7 +9,7 @@ const middlewares = [thunk];
 const reducer = combineReducers({
     bookCreated: createBookReducer,
     booksFetched: fetchBooksReducer,
-    userCreated: registerUserReducer,
+    userCreated: registerUserReducer,//consist of both login and register
 });
 
 // Get user from localstorage and save it into our store

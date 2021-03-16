@@ -1,10 +1,8 @@
 import React from 'react';
 
-const Loading = () => {
+const Loading = ({color}) => {
   return (
-    <div>
-      <h1>Loading please wait......</h1>
-    </div>
+    <div class={`spinner-border ${color}`} role="status"></div>
   );
 };
 

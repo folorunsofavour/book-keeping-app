@@ -89,7 +89,7 @@ const Navbar = () => {
                         {/* Login Register */}
                         <>
                             <li className='nav-item'>
-                                <a className='nav-link' to='/login'> Login </a>
+                                <Link className='nav-link' to='/users/login'> Login </Link>
                             </li>
                             <li className='nav-item'> 
                                 <Link className='nav-link' to='/users/register'> Register </Link>

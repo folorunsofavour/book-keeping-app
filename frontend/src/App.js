@@ -4,6 +4,7 @@ import AddBook from './components/Books/AddBook';
 import BookList from './components/Books/BookList';
 import Navbar from './components/Navbar/Navbar';
 import RegisterUser from './components/Users/RegisterUser';
+import LoginUser from './components/Users/LoginUser';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/books" component={BookList} />
           <Route exact path="/books/create" component={AddBook} />
           <Route exact path="/users/register" component={RegisterUser} />
+          <Route exact path="/users/login" component={LoginUser} />
         </Switch>
       </BrowserRouter>
     </>

@@ -34,24 +34,18 @@ const BookList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading ? (<Loading />) : (
-                                <> 
-                                    {books && books.map(book => {
-                                        return (
-                                            <>
-                                                {/* Map through here (Map is also Loop)*/}
-                                                <tr className='table-default'>
-                                                    <th scope='row'>{book.title}</th>
-                                                    <td>{book.author}</td>
-                                                    <td> <i className='bi-trash2-fill' style={{ color: 'red', cursor: 'progress' }}></i> </td>
-                                                    <td> <i className='bi-journal-text' style={{ color: 'yellow', cursor: 'progress', }}></i> </td>
-                                                </tr>
-                                                {/* End of map through */}
-                                            </>
-                                        );
-                                    })}
-                                </>
-                            )}
+                            { loading ? <Loading color='text-dark'/> : 
+                                /* && means if books it should do the map, so its just an if statement */
+                                /* Map through here (Map is also Loop)*/
+                                books && books.map((item, index) =>
+                                    <tr className='table-default'>
+                                        <td>{item.title}</td>
+                                        <td>{item.author}</td>
+                                        <td> <i className='bi-trash2-fill' style={{ color: 'red', cursor: 'progress' }}></i> </td>
+                                        <td> <i className='bi-journal-text' style={{ color: 'yellow', cursor: 'progress', }}></i> </td>
+                                    </tr>
+                                ) 
+                            }
                         </tbody>
                     </table>
                 </div>
