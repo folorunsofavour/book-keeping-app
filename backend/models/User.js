@@ -8,6 +8,15 @@ const UserSchema = new mongoose.Schema({
     password: {type: String, required: true},
 });
 
+//populate books user created
+UserSchema.virtual('books', {
+    ref: 'Book',
+    foreignField: 'createdBy',
+    localField: '_id',
+});
+
+UserSchema.set('toJSON',{ virtuals: true});
+
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

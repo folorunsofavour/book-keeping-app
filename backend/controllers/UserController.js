@@ -77,15 +77,44 @@ exports.UserLogin = async (req, res) => {
     }
 };
 
+exports.UserProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).populate('books');
+
+        if(!user){
+            throw new Error('You do not have any Profile, please register!!!');
+        }
+        res.status(200);
+        res.json(user);
+    } catch (error) {
+        res.status(500);
+        throw new Error('Server error');
+    }
+};
+
 exports.UserUpdate = async (req, res) => {
     // const user = await User.findByIdAndUpdate(req.user._id, req.body, {new: true, useFindAndModify: true}) This OR
-
-    const user = await User.findById(req.user._id);
+    try {
+        const user = await User.findById(req.user._id);
     
-    if(user){
-        const updatedUser = await user.save(req.body);
-        res.json(updatedUser);
+        if(user){
+            user.name = req.body.name || user.name;
+            user.email = req.body.email || user.email;
+
+            if(req.body.password) {
+                user.password = req.body.password || user.password;
+            }
+
+            const updatedUser = await user.save();
+
+            res.status(200);
+            res.json(updatedUser);
+        }
+    } catch (error) {
+        res.status(500);
+        throw new Error('Error Occured');
     }
+    
 };
 
 exports.UserDelete = async (req, res) => {

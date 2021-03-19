@@ -1,7 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUserAction } from '../../redux/actions/users/usersActions';
 
-const Navbar = () => {
+const Navbar = (props) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    
+    const state = useSelector(state => state.userCreated);
+
+    const { userInfo, loading, error } = state;
+
+    const logoutHandler = () => {
+        dispatch(logoutUserAction());
+        history.push('/');
+    }
+
     return (
         <header>
             <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
@@ -15,8 +29,39 @@ const Navbar = () => {
                         <li className='nav-item active'>
                             <a className='nav-link' to='/'> Home <span className='sr-only'>(current)</span> </a>
                         </li>
-                        <li className='nav-item'>
-                            {/* Modal  */}
+                        {!userInfo ?
+                            (/* Login Register */
+                            <>
+                                <li className='nav-item'>
+                                    <Link className='nav-link' to='/users/login'> Login </Link>
+                                </li>
+                                <li className='nav-item'> 
+                                    <Link className='nav-link' to='/users/register'> Register </Link>
+                                </li>
+                            </>)
+                            : 
+                            ( /* List menu items */
+                            <>
+                                <li className='nav-item'>
+                                    <Link className='nav-link' to='/books'> Books </Link>
+                                </li>
+                                <li className='nav-item'>
+                                    <Link className='nav-link' to='/books/create'> Add book </Link>
+                                </li>
+                                <li className='nav-item'>
+                                    <a className='nav-link' to='/users'> Users </a>
+                                </li>
+                                <li className='nav-item'>
+                                    <Link className='nav-link' to='/users/profile'> Profile </Link>
+                                </li>
+                                <li className='nav-item'> 
+                                    <Link onClick={logoutHandler} className='nav-link'> Logout </Link>
+                                </li>
+                            </>)
+                        }
+                       
+                        {/* <li className='nav-item'>
+                            Modal
                             <button type='button' className='btn btn-outline-danger' data-bs-toggle='modal' data-bs-target='#about'> About </button>
 
                             <div className='modal fade' id='about' tabIndex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
@@ -69,33 +114,8 @@ const Navbar = () => {
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                        {/* List menu items */}
-                        <>
-                            <li className='nav-item'>
-                                <Link className='nav-link' to='/books'> Books </Link>
-                            </li>
-                            <li className='nav-item'>
-                                <Link className='nav-link' to='/books/create'> Add book </Link>
-                            </li>
-                            <li className='nav-item'>
-                                <a className='nav-link' to='/users'> Users </a>
-                            </li>
-                            <li className='nav-item'> 
-                                <a className='nav-link' to='/login'> Logout </a>
-                            </li>
-                        </>
-
-                        {/* Login Register */}
-                        <>
-                            <li className='nav-item'>
-                                <Link className='nav-link' to='/users/login'> Login </Link>
-                            </li>
-                            <li className='nav-item'> 
-                                <Link className='nav-link' to='/users/register'> Register </Link>
-                            </li>
-                        </>
-
+                        </li> */}
+                        
                         {/* Drop dowm */}
                         {true ? (
                         <li className='nav-item dropdown'>

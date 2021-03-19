@@ -2,7 +2,7 @@ import React from 'react';
 
 const Loading = ({color}) => {
   return (
-    <div class={`spinner-border ${color}`} role="status"></div>
+    <div className={`spinner-border ${color}`} role="status"></div>
   );
 };
 

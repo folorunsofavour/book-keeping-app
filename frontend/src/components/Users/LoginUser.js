@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../redux/actions/users/usersActions';
 import Loading from '../Loading/Loading';
@@ -18,7 +18,6 @@ const LoginUser = ({history}) => {
     });
     const {userInfo, loading, error} = state;
 
-
     const loginUserSubmitHandler = (e) => {
         e.preventDefault();
 
@@ -26,13 +25,17 @@ const LoginUser = ({history}) => {
 
         // dispatch action here
         dispatch(loginUserAction(data));
-
-        // Redirect to dashboard after login
-        // history.push('/profile');
     };
 
+    // Redirect to dashboard after login
+    useEffect(() => {
+        if(userInfo) {
+            history.push('/users/profile');
+        }
+    }, [state]);
+
     return (
-        <div className='row container-height'>
+        <div style={{marginTop: 30}} className='row container-height'>
             <div className='col-lg-6 col-md-6 m-auto'>
                 <div className='container'>
                     <form onSubmit = {loginUserSubmitHandler}>

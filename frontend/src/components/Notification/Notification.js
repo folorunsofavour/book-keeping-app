@@ -4,8 +4,9 @@ const Notification = ({error, success}) => {
 
     if(error != null){
         return (
-            <div>
-                <p>{error}</p>
+            <div className="alert alert-dismissible alert-danger">
+                <button type="button" className="close" data-bs-dismiss="alert">&times;</button>
+                <strong> {error} </strong>
             </div>
         );
     }
@@ -13,8 +14,9 @@ const Notification = ({error, success}) => {
     if(success != null)
     {
         return (
-            <div>
-                <p>{success}</p>
+            <div className="alert alert-dismissible alert-success">
+                <button type="button" className="close" data-bs-dismiss="alert">&times;</button>
+                <strong> {success} </strong>
             </div>
         );
     }

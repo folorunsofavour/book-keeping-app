@@ -15,7 +15,15 @@ exports.Book = async (req, res) => {
 };
 
 exports.BookCreate = async (req, res) => {
-    const book = req.body;
+    // Get the user from req.user
+    const userId = req.user._id;
+
+    const book = {
+        title: req.bosy.title,
+        category: req.body.category,
+        author: req.body.author,
+        createdBy: userId,
+    };
 
     const saveBook = new Book(book);
     await saveBook.save();
