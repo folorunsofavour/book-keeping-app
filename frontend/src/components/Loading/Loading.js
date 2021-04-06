@@ -1,8 +1,11 @@
 import React from 'react';
+import { Loader, Dimmer } from 'semantic-ui-react'
 
-const Loading = ({color}) => {
+const Loading = ({size, inverted}) => {
   return (
-    <div className={`spinner-border ${color}`} role="status"></div>
+    // <Dimmer active>
+    <Loader size={size} active inverted={inverted} inline='centered'/>
+    // </Dimmer>
   );
 };
 

@@ -15,9 +15,6 @@ const Home = () => {
                 <div className='SubContent'>
                     <h1>Book Catolog</h1>
                     <p>Manage your Books with Ease</p>
-                    <button type='button' className='btn btn-outline-dark'>
-                        <Link to='/users/register'>Get started</Link>
-                    </button>
                     <img src={bookpg} alt='profile' />
                 </div>
             </div>

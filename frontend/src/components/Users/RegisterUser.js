@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Form, Segment, Grid } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAction } from '../../redux/actions/users/usersActions';
+import Loading from '../Loading/Loading';
+import Notification from '../Notification/Notification';
 
 const RegisterUser = ({history}) => {
     const [name, setName] = useState('');
@@ -12,14 +15,14 @@ const RegisterUser = ({history}) => {
     // Get user login from store
     const  userCreatedLogin = useSelector(state => state.userCreated);
 
-    const {userInfo} = userCreatedLogin;
+    const {token, loading, message} = userCreatedLogin;
 
     // Redirect if user is logged in OR authenticated
     useEffect(() => {
-        if(userInfo) {
-            history.push('/dashboard');
+        if(token) {
+            history.push('/users/profile');
         }
-    }, [userInfo]);
+    }, [token]);
 
     const formSubmitHandler = (e) => {
         e.preventDefault();
@@ -29,33 +32,34 @@ const RegisterUser = ({history}) => {
     };
     
     return (
-        <div className='row container-height'>
-            <div className='col-lg-6 col-md-6 m-auto'>
-                <div className='container'>
-                    <h1 className='text-center'>Register</h1>
-
-                    <form onSubmit = {formSubmitHandler}>
-                        <fieldset>
-                            <div className='form-group'>
-                                <label htmlFor='exampleInputEmail1'>Name</label>
-                                <input value={name} onChange={(e) => setName(e.target.value)} type='text' className='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' placeholder='Enter Name' />
-                            </div>
-                            <div className='form-group'>
-                                <label htmlFor='exampleInputEmail1'>Email address</label>
-                                <input value={email} onChange={(e) => setEmail(e.target.value)} type='email' className='form-control' id='exampleInputEmail1' aria-describedby='emailHelp' placeholder='Enter email' />
-                            </div>
-                            <div className='form-group'>
-                                <label htmlFor='exampleInputPassword1'>Password</label>
-                                <input value={password} onChange={(e) => setPassword(e.target.value)} type='password' className='form-control' id='exampleInputPassword1' placeholder='Password' />
-                            </div>
-                            <button type='submit' className='btn btn-info m-auto'>
-                                Register
-                            </button>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <>
+        {/* this && is also an if statement  */}
+        {message && <Notification message={message} width='6'/>}
+        
+        <Grid centered columns={3} style={{marginTop: 150}}>
+            <Grid.Column>
+                <Segment stacked color='teal'>
+                    <Form  onSubmit = {formSubmitHandler}>
+                        <Form.Field>
+                            <label htmlFor='name'>Name</label>
+                            <Form.Input fluid icon='user' iconPosition='left' value={name} onChange={(e) => setName(e.target.value)} type='text' id='name' placeholder='Enter Your Name' />
+                        </Form.Field>
+                        <Form.Field>
+                            <label htmlFor='email_address'>Email Address</label>
+                            <Form.Input fluid icon='envelope' iconPosition='left' value={email} onChange={(e) => setEmail(e.target.value)} type='email' id='email_address' placeholder='Enter Email Address' />
+                        </Form.Field>
+                        <Form.Field>
+                            <label htmlFor='pass_word'>Password</label>
+                            <Form.Input fluid icon='lock' iconPosition='left' value={password} onChange={(e) => setPassword(e.target.value)} type='password' id='pass_word' placeholder='Enter Password' />
+                        </Form.Field>
+                        <Button color='teal' fluid size='large' type='submit'>{ loading ? <Loading inverted='true' size='small'/>
+                            :'Register' }
+                        </Button>
+                    </Form>
+                </Segment>
+            </Grid.Column>
+        </Grid>
+        </>
     );
 };
 

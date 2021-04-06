@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Menu, Segment, Dropdown } from 'semantic-ui-react'
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUserAction } from '../../redux/actions/users/usersActions';
@@ -9,139 +10,86 @@ const Navbar = (props) => {
     
     const state = useSelector(state => state.userCreated);
 
-    const { userInfo, loading, error } = state;
+    const { token, loading, error } = state;
 
     const logoutHandler = () => {
         dispatch(logoutUserAction());
         history.push('/');
     }
 
+    // for the Menu Items
+    const [activeState, setActiveState] = useState({ activeItem: 'home' });
+
+    const activeHandler = (menuName) => {
+        setActiveState({ activeItem: menuName });
+    }
+
+    const { activeItem } = activeState;
+    // End of Menu items
+
     return (
-        <header>
-            <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
-                <a className='navbar-brand' to='/'> BK </a>
-                <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarColor01' aria-controls='navbarColor01' aria-expanded='false' aria-label='Toggle navigation'>
-                    <span className='navbar-toggler-icon'></span>
-                </button>
+        <Segment>
+            {/* <Link className='navbar-brand' to='/'> BK </Link> */}
+            {/* <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarColor01' aria-controls='navbarColor01' aria-expanded='false' aria-label='Toggle navigation'>
+                <span className='navbar-toggler-icon'></span>
+            </button> */}
+            <Menu color='teal' pointing secondary>
+                <Menu.Item
+                    name='home'
+                    active = {activeItem === 'home'}
+                    onClick={() => activeHandler('home')} 
+                    as={Link} 
+                    to='/'
+                />
+                {!token ?
+                /* Login Register */
+                <>
+                    <Menu.Item
+                        name='login'
+                        active = {activeItem === 'login'}
+                        onClick={() => activeHandler('login')} 
+                        as={Link} 
+                        to='/users/login'
+                    />
+                    <Menu.Item
+                        name='register'
+                        active = {activeItem === 'register'}
+                        onClick={() => activeHandler('register')} 
+                        as={Link} 
+                        to='/users/register'
+                    />
+                </>
+                : 
+                <>
+                    <Menu.Item
+                        name='all books'
+                        active = {activeItem === 'books'}
+                        onClick={() => activeHandler('books')} 
+                        as={Link} 
+                        to='/books'
+                    />
+                    <Menu.Item
+                        name='add book'
+                        active = {activeItem === 'add book'}
+                        onClick={() => activeHandler('add book')} 
+                        as={Link} 
+                        to='/books/create'
+                    />
 
-                <div className='collapse navbar-collapse' id='navbarColor01'>
-                    <ul className='navbar-nav m-auto'>
-                        <li className='nav-item active'>
-                            <a className='nav-link' to='/'> Home <span className='sr-only'>(current)</span> </a>
-                        </li>
-                        {!userInfo ?
-                            (/* Login Register */
-                            <>
-                                <li className='nav-item'>
-                                    <Link className='nav-link' to='/users/login'> Login </Link>
-                                </li>
-                                <li className='nav-item'> 
-                                    <Link className='nav-link' to='/users/register'> Register </Link>
-                                </li>
-                            </>)
-                            : 
-                            ( /* List menu items */
-                            <>
-                                <li className='nav-item'>
-                                    <Link className='nav-link' to='/books'> Books </Link>
-                                </li>
-                                <li className='nav-item'>
-                                    <Link className='nav-link' to='/books/create'> Add book </Link>
-                                </li>
-                                <li className='nav-item'>
-                                    <a className='nav-link' to='/users'> Users </a>
-                                </li>
-                                <li className='nav-item'>
-                                    <Link className='nav-link' to='/users/profile'> Profile </Link>
-                                </li>
-                                <li className='nav-item'> 
-                                    <Link onClick={logoutHandler} className='nav-link'> Logout </Link>
-                                </li>
-                            </>)
-                        }
-                       
-                        {/* <li className='nav-item'>
-                            Modal
-                            <button type='button' className='btn btn-outline-danger' data-bs-toggle='modal' data-bs-target='#about'> About </button>
-
-                            <div className='modal fade' id='about' tabIndex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-                                <div className='modal-dialog'>
-                                    <div className='modal-content'>
-                                        <div className='modal-header'>
-                                            <h5 className='modal-title' id='exampleModalLabel'> App functionalities </h5>
-                                            <button type='button' className='close' data-bs-dismiss='modal' aria-label='Close'>
-                                                <span aria-hidden='true'>&times;</span>
-                                            </button>
-                                        </div>
-                                        <div className='modal-body'>
-                                            <ul className='list-group'>
-                                                <li className='list-group-item active'>
-                                                    <i className='bi-clipboard-check text-grey mr-3' style={{ fontSize: '1.5rem' }}></i> Register User
-                                                    <hr />
-                                                </li>
-                                                <li className='list-group-item'>
-                                                    <i className='bi-clipboard-check text-grey mr-3' style={{ fontSize: '1.5rem' }}></i> Update Profile
-                                                    <hr />
-                                                </li>
-                                                <li className='list-group-item'>
-                                                    <i className='bi-clipboard-check text-grey mr-3' style={{ fontSize: '1.5rem' }}></i> Login
-                                                    <hr />
-                                                </li>
-                                                <li className='list-group-item'>
-                                                    <i className='bi-clipboard-check text-grey mr-3' style={{ fontSize: '1.5rem' }}></i> User Dashboard
-                                                    <hr />
-                                                </li>
-                                                <li className='list-group-item'>
-                                                    <i className='bi-clipboard-check text-grey mr-3' style={{ fontSize: '1.5rem' }}></i> List of Users
-                                                    <hr />
-                                                </li>
-                                                <li className='list-group-item'>
-                                                    <i className='bi-clipboard-check text-grey mr-3' style={{ fontSize: '1.5rem' }}></i> List of Books
-                                                    <hr />
-                                                </li>
-                                                <li className='list-group-item'>
-                                                    <i className='bi-clipboard-check text-grey mr-3' style={{ fontSize: '1.5rem' }}></i> Many more
-                                                    <hr />
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div className='modal-footer'>
-                                            <a className='mr-5' href='https://github.com/folorunsofavour' target='_'> developed by: Favour </a>
-                                            <button type='button' className='btn btn-outline-danger' data-bs-dismiss='modal'>
-                                                Close
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li> */}
-                        
-                        {/* Drop dowm */}
-                        {true ? (
-                        <li className='nav-item dropdown'>
-                            <a className='nav-link dropdown-toggle btn-dark' data-bs-toggle='dropdown' href='/' role='button' aria-haspopup='true' aria-expanded='false'> </a>
-                            <div className='dropdown-menu'>
-                                <a className='dropdown-item' to='/profile'> Profile </a>
-                                <a className='dropdown-item' to='/addbook'> Add book </a>
-                                <a className='dropdown-item' to='/books'> Books </a>
-
-                                <div className='dropdown-divider'></div>
-                                <button className='dropdown-item'>Logout</button>
-                            </div>
-                        </li>
-                        ) : (
-                        ''
-                        )}
-                    </ul>
-                    <form className='form-inline my-2 my-lg-0'>
-                        <input className='form-control mr-sm-2' type='text' placeholder='Search' />
-                        <button className='btn btn-secondary my-2 my-sm-0' type='submit'>
-                            Search
-                        </button>
-                    </form>
-                </div>
-            </nav>
-        </header>
+                    <Menu.Menu position='right'>
+                        <Dropdown text='Account' pointing className='link item'>
+                            <Dropdown.Menu>
+                                <Dropdown.Item as={Link} to='/users/profile'>Profile</Dropdown.Item>
+                                <Dropdown.Item as={Link} to='/user/books'>Your Books</Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Header onClick={logoutHandler}>Logout</Dropdown.Header>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Menu.Menu>
+                </>
+            }
+            </Menu>
+        </Segment>
     );
 };
 

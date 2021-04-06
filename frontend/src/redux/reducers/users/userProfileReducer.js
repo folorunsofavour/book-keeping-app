@@ -1,4 +1,4 @@
-import { USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS } from "../../actions/actionTypes";
+import { USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS, DELETE_BOOK_SUCCESS, DELETE_BOOK_REQUEST, DELETE_BOOK_FAIL } from "../../actions/actionTypes";
 
 const userProfileReducer = (state =  {}, action) => {
     switch(action.type) {
@@ -8,12 +8,16 @@ const userProfileReducer = (state =  {}, action) => {
             };
         case USER_PROFILE_SUCCESS:
             return {
-                userProfileData: action.payload,
+                userProfileData: action.payload.data
             };
         case USER_PROFILE_FAIL:
             return {
                 loading: false,
-                error: action.payload,
+                message: {
+                    type: 'fail',
+                    title: 'Error',
+                    content: action.payload
+                },
             };
         default:
             return state;
@@ -28,17 +32,26 @@ const userUpdateReducer = (state =  {}, action) => {
             };
         case USER_UPDATE_SUCCESS:
             return {
-                userUpdatedData: action.payload,
-                success: true,
+                userUpdatedInfo: action.payload.data,
+                message: {
+                    type: 'success',
+                    title: 'Success',
+                    content: action.payload.message
+                },
             };
         case USER_UPDATE_FAIL:
             return {
                 loading: false,
-                error: action.payload,
+                message: {
+                    type: 'fail',
+                    title: 'Error',
+                    content: action.payload
+                },
             };
         default:
             return state;
     }
 };
 
-export {userProfileReducer,userUpdateReducer};
+
+export {userProfileReducer, userUpdateReducer};

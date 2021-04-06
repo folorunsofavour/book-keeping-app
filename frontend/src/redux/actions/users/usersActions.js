@@ -23,7 +23,7 @@ const registerUserAction = (name, email, password) => {
             });
 
             // Save the user into local storage
-            localStorage.setItem('userAuthData', JSON.stringify(data))
+            localStorage.setItem('userAuthData', JSON.stringify(data.data.token))
         } 
         catch (error) {
             dispatch({
@@ -57,7 +57,7 @@ const loginUserAction = (loginData) => {
             });
 
             // Save the user into local storage
-            localStorage.setItem('userAuthData', JSON.stringify(data))
+            localStorage.setItem('userAuthData', JSON.stringify(data.data.token))
         } 
         catch (error) {
             dispatch({
@@ -95,7 +95,8 @@ const logoutUserAction = () => {
 // Profile Action
 const getUserProfileAction = () => {
     return async (dispatch, getState) => {
-        const {userInfo} = getState().userCreated;
+
+        const {token} = getState().userCreated;
         try {
 
             dispatch({
@@ -105,7 +106,7 @@ const getUserProfileAction = () => {
             // Make actual call
             const config = {
                 headers: {
-                    authorization: `Bearer ${userInfo.token}`,
+                    authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             };
@@ -131,7 +132,7 @@ const getUserProfileAction = () => {
 // Update Action
 const updateUserAction = (profileData) =>{
     return async (dispatch, getState) => {
-        const {userInfo} = getState().userCreated;
+        const {token} = getState().userCreated;
         try {
 
             dispatch({
@@ -141,7 +142,7 @@ const updateUserAction = (profileData) =>{
             // Make actual call
             const config = {
                 headers: {
-                    authorization: `Bearer ${userInfo.token}`,
+                    authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             };

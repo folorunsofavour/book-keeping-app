@@ -1,7 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { createBookReducer, fetchBooksReducer } from '../reducers/books/bookReducer';
+import { createBookReducer, fetchBooksReducer, updateBookReducer, getBookReducer, userBooksReducer, deleteBookReducer } from '../reducers/books/bookReducer';
 import { registerUserReducer } from '../reducers/users/userAuthReducer';
 import { userProfileReducer, userUpdateReducer } from '../reducers/users/userProfileReducer';
 
@@ -10,8 +10,12 @@ const middlewares = [thunk];
 const reducer = combineReducers({
     bookCreated: createBookReducer,
     booksFetched: fetchBooksReducer,
+    bookGotten: getBookReducer,
+    bookUpdated: updateBookReducer,
+    userBooks: userBooksReducer,
+    deleteBook: deleteBookReducer,
     userCreated: registerUserReducer,//consist of both login and register
-    userProfile: userProfileReducer,
+    userProfile: userProfileReducer,//consist of both profile and book deleted
     userUpdate: userUpdateReducer,
 });
 
@@ -19,7 +23,7 @@ const reducer = combineReducers({
 const userAuthFromStorage = localStorage.getItem('userAuthData') ? JSON.parse(localStorage.getItem('userAuthData')) : null;
 
 const initialState = {
-    userCreated: { userInfo: userAuthFromStorage },
+    userCreated: { token: userAuthFromStorage },
 }
 
 const store = createStore(

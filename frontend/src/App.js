@@ -8,6 +8,8 @@ import LoginUser from './components/Users/LoginUser';
 import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
 import UpdateProfile from './components/Profile/UpdateProfile';
+import UpdateBook from './components/Books/UpdateBook';
+import UserBooks from './components/Profile/UserBooks';
 
 function App() {
   return (
@@ -22,10 +24,12 @@ function App() {
           <Route exact path="/" component={Home}/>
           <Route exact path="/books" component={BookList} />
           <Route exact path="/books/create" component={AddBook} />
+          <Route exact path="/books/update/:id" component={UpdateBook} />
           <Route exact path="/users/register" component={RegisterUser} />
           <Route exact path="/users/login" component={LoginUser} />
           <Route exact path='/users/profile' component={Profile} />
           <Route exact path='/users/update' component={UpdateProfile} />
+          <Route exact path='/user/books' component={UserBooks} />
         </Switch>
       </BrowserRouter>
     </>
